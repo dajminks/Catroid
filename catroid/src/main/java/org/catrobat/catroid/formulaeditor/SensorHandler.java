@@ -41,15 +41,19 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.camera.Position;
 import org.catrobat.catroid.camera.VisualDetectionHandler;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.nfc.NfcHandler;
+import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.StageResourceHolder;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.Calendar;
@@ -378,19 +382,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case STAGE_HEIGHT:
 				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 			case FACE_DETECTED:
-				return true;
+				return faceDetection();
 			case FACE_SIZE:
-				return true;
 			case FACE_X:
-				return true;
 			case FACE_Y:
-				return true;
 			case SECOND_FACE_DETECTED:
-				return true;
 			case SECOND_FACE_SIZE:
-				return true;
 			case SECOND_FACE_X:
-				return true;
 			case SECOND_FACE_Y:
 				return true;
 
@@ -400,6 +398,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		return 0.0d;
 	}
 
+
+	private static boolean faceDetection(){
+		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		//boolean return_ = cameraManager.isCameraActive();
+		//System.out.println(return_);
+		return StageActivity.getActiveCameraManager() == null;
+	}
 	private static Double calculateCompassDirection(float[] rotationMatrixOut) {
 		Double sensorValue;
 		int rotate;
