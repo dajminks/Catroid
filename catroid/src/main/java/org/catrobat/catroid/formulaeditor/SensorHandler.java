@@ -377,6 +377,23 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 			case STAGE_HEIGHT:
 				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
+			case FACE_DETECTED:
+				return true;
+			case FACE_SIZE:
+				return true;
+			case FACE_X:
+				return true;
+			case FACE_Y:
+				return true;
+			case SECOND_FACE_DETECTED:
+				return true;
+			case SECOND_FACE_SIZE:
+				return true;
+			case SECOND_FACE_X:
+				return true;
+			case SECOND_FACE_Y:
+				return true;
+
 			default:
 				return instance.sensorValueMap.containsKey(sensor) ? instance.sensorValueMap.get(sensor) : 0.0d;
 		}
