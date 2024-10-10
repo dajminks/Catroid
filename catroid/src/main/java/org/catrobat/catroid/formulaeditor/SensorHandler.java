@@ -47,13 +47,11 @@ import org.catrobat.catroid.camera.VisualDetectionHandler;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.stage.StageResourceHolder;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.Calendar;
@@ -103,6 +101,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	private SensorLoudness sensorLoudness;
 
+	private CameraManager cameraManager;
+
 	private final Map<Sensors, Object> sensorValueMap = new HashMap();
 
 	public static void setUserLocaleTag(String userLocale) {
@@ -147,6 +147,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	public void setLocationManager(LocationManager locationManager) {
 		this.locationManager = locationManager;
 	}
+
+	public void setCameraManager(CameraManager cameraManager){
+		this.cameraManager = cameraManager;
+	}
+
+	public static boolean cameraAvailable() {return instance.cameraManager.isCameraActive(); }
 
 	public static boolean gpsAvailable() {
 		return gpsSensorAvailable() | networkGpsAvailable();
@@ -382,15 +388,16 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case STAGE_HEIGHT:
 				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 			case FACE_DETECTED:
-				return faceDetection();
+			//	return face_fun();
 			case FACE_SIZE:
+			case SECOND_FACE_DETECTED:
+			//	return face_fun2(sensor);
 			case FACE_X:
 			case FACE_Y:
-			case SECOND_FACE_DETECTED:
 			case SECOND_FACE_SIZE:
 			case SECOND_FACE_X:
 			case SECOND_FACE_Y:
-				return true;
+				return 0.0d;
 
 			default:
 				return instance.sensorValueMap.containsKey(sensor) ? instance.sensorValueMap.get(sensor) : 0.0d;
@@ -399,11 +406,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 
-	private static boolean faceDetection(){
-		CameraManager cameraManager = StageActivity.getActiveCameraManager();
-		//boolean return_ = cameraManager.isCameraActive();
-		//System.out.println(return_);
-		return StageActivity.getActiveCameraManager() == null;
+	private static boolean face_fun(){
+		CameraManager cameraManager1 = StageActivity.getActiveCameraManager();
+		if(cameraManager1 == null){ // cameraMan is Null, need to start it somehow
+			cameraManager1 = new CameraManager(StageActivity.activeStageActivity.get());
+			return false;
+		}
+
+		return true;
+		//
+	}
+
+	private static Object face_fun2(Sensors sensor){
+		return sensor;
 	}
 	private static Double calculateCompassDirection(float[] rotationMatrixOut) {
 		Double sensorValue;
