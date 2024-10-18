@@ -24,6 +24,10 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Camera;
+import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -36,6 +40,13 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
+import android.graphics.Rect;
+
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.esotericsoftware.kryo.util.Null;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.face.FaceDetection;
+import com.google.mlkit.vision.face.FaceDetector;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -44,6 +55,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.camera.Position;
 import org.catrobat.catroid.camera.VisualDetectionHandler;
+import org.catrobat.catroid.camera.VisualDetectionHandlerFace;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -53,7 +65,9 @@ import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.catrobat.catroid.camera.VisualDetectionHandler;
 
+import java.lang.reflect.Array;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -61,6 +75,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+// import androidx.test.core.app.ApplicationProvider;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener, LocationListener,
 		GpsStatus.Listener {
@@ -388,16 +403,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case STAGE_HEIGHT:
 				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 			case FACE_DETECTED:
-			//	return face_fun();
 			case FACE_SIZE:
-			case SECOND_FACE_DETECTED:
-			//	return face_fun2(sensor);
-			case FACE_X:
-			case FACE_Y:
-			case SECOND_FACE_SIZE:
-			case SECOND_FACE_X:
-			case SECOND_FACE_Y:
-				return 0.0d;
+				return face_fun(sensor); //instance.sensorValueMap.containsKey(sensor) ?
+						//instance.sensorValueMap.get(sensor) : 0.0d;
 
 			default:
 				return instance.sensorValueMap.containsKey(sensor) ? instance.sensorValueMap.get(sensor) : 0.0d;
@@ -406,19 +414,22 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 
-	private static boolean face_fun(){
-		CameraManager cameraManager1 = StageActivity.getActiveCameraManager();
-		if(cameraManager1 == null){ // cameraMan is Null, need to start it somehow
-			cameraManager1 = new CameraManager(StageActivity.activeStageActivity.get());
-			return false;
-		}
-
+	private static Object face_fun(Sensors sensor){
+		//SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
+		//FaceDetector detector = new FaceDetector(200, 200, 5);
+		FaceDetector detector = FaceDetection.getClient();
+		InputImage image = InputImage.fromFilePath("/storage/emulated/0/Pictures"
+				+ "/IMG_20241013_140230.jpg", 0);
+		detector.process(image);
 		return true;
-		//
+		//detector.findFaces(Bitmap, Face)
+
 	}
 
 	private static Object face_fun2(Sensors sensor){
-		return sensor;
+		instance.sensorValueMap.put(sensor, 25.0d);
+		return instance.sensorValueMap.containsKey(sensor) ? instance.sensorValueMap.get(sensor)
+				: 0.0d;
 	}
 	private static Double calculateCompassDirection(float[] rotationMatrixOut) {
 		Double sensorValue;
