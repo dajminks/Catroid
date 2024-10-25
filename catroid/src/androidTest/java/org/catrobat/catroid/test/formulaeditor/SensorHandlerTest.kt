@@ -28,11 +28,13 @@ import android.graphics.Rect
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
+import com.google.mlkit.vision.face.FaceDetection
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.camera.VisualDetectionHandler.facesForSensors
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceDetectionStatusSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandlerFace
+import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.SensorLoudness
@@ -81,6 +83,7 @@ class SensorHandlerTest {
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
         compareToSensor(0, Sensors.FACE_DETECTED)
         compareToSensor(0, Sensors.FACE_SIZE)
+        val detector = FaceDetection.getClient();
 
         val firstFaceSize = 50
         val firstFacePosition = Point(15, -15)

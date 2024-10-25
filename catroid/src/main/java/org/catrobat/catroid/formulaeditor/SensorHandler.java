@@ -46,7 +46,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.esotericsoftware.kryo.util.Null;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.face.FaceDetection;
-import com.google.mlkit.vision.face.FaceDetector;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -56,6 +55,7 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.camera.Position;
 import org.catrobat.catroid.camera.VisualDetectionHandler;
 import org.catrobat.catroid.camera.VisualDetectionHandlerFace;
+import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -415,13 +415,18 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 
 	private static Object face_fun(Sensors sensor){
+
+		FaceDetector client = FaceDetector.INSTANCE;
+
+		return (client);
+
 		//SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
 		//FaceDetector detector = new FaceDetector(200, 200, 5);
 		//FaceDetector detector = FaceDetection.getClient();
 		//InputImage image = InputImage.fromFilePath("/storage/emulated/0/Pictures"
 		//		+ "/IMG_20241013_140230.jpg", 0);
 		//detector.process(image);
-		return true;
+		//return true;
 		//detector.findFaces(Bitmap, Face)
 
 	}
