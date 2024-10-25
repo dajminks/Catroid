@@ -417,10 +417,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private static Object face_fun(Sensors sensor){
 		//SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
 		//FaceDetector detector = new FaceDetector(200, 200, 5);
-		FaceDetector detector = FaceDetection.getClient();
-		InputImage image = InputImage.fromFilePath("/storage/emulated/0/Pictures"
-				+ "/IMG_20241013_140230.jpg", 0);
-		detector.process(image);
+		//FaceDetector detector = FaceDetection.getClient();
+		//InputImage image = InputImage.fromFilePath("/storage/emulated/0/Pictures"
+		//		+ "/IMG_20241013_140230.jpg", 0);
+		//detector.process(image);
 		return true;
 		//detector.findFaces(Bitmap, Face)
 
