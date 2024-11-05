@@ -73,8 +73,6 @@ public class StageResourceFailedTest {
 	public void testResourceFailedDialog() {
 		baseActivityTestRule.launchActivity(null);
 
-		onView(isRoot()).perform(CustomActions.wait(5000));
-
 		onView(withText(R.string.prestage_resource_not_available_title))
 				.check(matches(isDisplayed()));
 
@@ -84,8 +82,6 @@ public class StageResourceFailedTest {
 
 		onView(withText(failedResourceMessage))
 				.check(matches(isDisplayed()));
-//		onView(withText(containsString(failedResourceMessage))).inRoot(isPlatformPopup()).check
-//		(matches(isDisplayed()));
 	}
 
 	public void createProject(String projectName) {
