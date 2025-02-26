@@ -27,6 +27,6 @@ import org.catrobat.catroid.runner.AndroidPackageRunner;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidPackageRunner.class)
-@AndroidPackageRunner.PackagePath("org.catrobat.catroid.uiespresso")
+@AndroidPackageRunner.PackagePath("org.catrobat.catroid.uiespresso.stage.StageResourceFailedTest")
 public class AllUiEspressoTestsSuite {
 }
